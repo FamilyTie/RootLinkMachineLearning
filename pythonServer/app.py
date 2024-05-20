@@ -10,6 +10,7 @@ import psycopg2
 from batch_process_profiles import load_and_process_data_with_new_profile
 from server_utils import process_existing_profile, process_new_profile
 from sentence_transformers import SentenceTransformer
+
 app = Flask(__name__)
 CORS(app)
 

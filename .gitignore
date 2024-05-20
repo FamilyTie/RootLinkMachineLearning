@@ -1,1 +1,8 @@
 pythonServer/venv/lib/python3.12/site-packages/torch/lib/libtorch_cpu.dylib
+# Ignore virtual environment
+venv/
+pythonServer/venv/
+
+# Ignore large binaries if not managed by LFS
+pythonServer/venv/lib/python3.12/site-packages/torch/lib/libtorch_cpu.dylib
+*.dylib
