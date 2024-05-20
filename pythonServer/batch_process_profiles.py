@@ -69,7 +69,6 @@ def load_and_process_data_with_new_profile(batch_size, new_profile):
     all_data = fetch_data_in_batches(batch_size)
     df = pd.DataFrame(all_data, columns=['id', 'bio', 'ethnicity', 'adoption_year'])
     
-    # Add the new profile to the DataFrame
     new_profile_df = pd.DataFrame([new_profile], columns=['id', 'bio', 'ethnicity', 'adoption_year'])
     df = pd.concat([df, new_profile_df], ignore_index=True)
 

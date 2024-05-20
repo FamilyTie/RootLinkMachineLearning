@@ -53,6 +53,7 @@ def process_new_profile(new_profile_entry, load_and_process_data_with_new_profil
 
     most_similar_profiles = []
 
+    # If group is not 0, that means theres matches
     if new_profile_group != 0:
         group_profiles = df[df['group'] == new_profile_group]
         existing_vectors = np.array(group_profiles[group_profiles['id'] != new_profile_entry['id']]['bio_vector'].tolist())
