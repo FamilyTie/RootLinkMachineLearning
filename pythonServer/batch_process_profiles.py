@@ -92,11 +92,4 @@ def load_and_process_data_with_new_profile(batch_size, new_profile):
 
 if __name__ == "__main__":
     # Load and process data
-    res = load_and_process_data(BATCH_SIZE)
-    print(res)
-    
-    # Clear the existing cluster table
-    clear_cluster_table()
-
-    # Save the new cluster data
-    save_clusters(res)
+    print(DATABASE_URL)

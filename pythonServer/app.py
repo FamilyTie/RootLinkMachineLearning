@@ -31,6 +31,7 @@ global_vectorizer = SentenceTransformer('all-MiniLM-L6-v2')
 
 
 
+
 @app.route('/model/process_user', methods=['POST'])
 def process_user():
     try:
