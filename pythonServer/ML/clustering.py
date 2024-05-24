@@ -2,26 +2,17 @@ import psycopg2
 import numpy as np
 import json
 from sklearn.cluster import KMeans
+from dotenv import load_dotenv
+import os
+from urllib.parse import urlparse
 
+load_dotenv()
 
-DB_HOST = 'localhost'
-DB_PORT = '5432'
-DB_NAME = 'postgres'
-DB_USER = 'postgres'
-DB_PASSWORD = '1234'
-
+DATABASE_URL = os.getenv('DATABASE_URL')
 BATCH_SIZE = 1000
 
 def get_database_connection():
-    return psycopg2.connect(
-        host=DB_HOST,
-        port=DB_PORT,
-        database=DB_NAME,
-        user=DB_USER,
-        password=DB_PASSWORD
-    )
-
-
+    return psycopg2.connect(DATABASE_URL)
 
 def fetch_clusters():
     connection = get_database_connection()

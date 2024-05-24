@@ -10,28 +10,26 @@ import psycopg2
 from batch_process_profiles import load_and_process_data_with_new_profile
 from server_utils import process_existing_profile, process_new_profile
 from sentence_transformers import SentenceTransformer
+from dotenv import load_dotenv
+import os
+from urllib.parse import urlparse
 
+load_dotenv()
+
+DATABASE_URL = os.getenv('DATABASE_URL')
+
+BATCH_SIZE = 1000
+
+def get_database_connection():
+    return psycopg2.connect(DATABASE_URL)
+    
 app = Flask(__name__)
 CORS(app)
 
-# Database connection details
-DB_HOST = 'localhost'
-DB_PORT = '5432'
-DB_NAME = 'postgres'
-DB_USER = 'postgres'
-DB_PASSWORD = '1234'
 
-BATCH_SIZE = 1000
 global_vectorizer = SentenceTransformer('all-MiniLM-L6-v2')
 
-def get_database_connection():
-    return psycopg2.connect(
-        host=DB_HOST,
-        port=DB_PORT,
-        database=DB_NAME,
-        user=DB_USER,
-        password=DB_PASSWORD
-    )
+
 
 @app.route('/model/process_user', methods=['POST'])
 def process_user():

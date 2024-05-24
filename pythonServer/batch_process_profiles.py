@@ -4,23 +4,19 @@ from ML.utils import preprocess_bios
 from ML.clustering import clear_cluster_table, save_clusters
 import numpy as np
 from sentence_transformers import SentenceTransformer
+from dotenv import load_dotenv
+import os
+from urllib.parse import urlparse
 
-DB_HOST = 'localhost'
-DB_PORT = '5432'
-DB_NAME = 'postgres'
-DB_USER = 'postgres'
-DB_PASSWORD = '1234'
+load_dotenv()
+
+DATABASE_URL = os.getenv('DATABASE_URL')
 
 BATCH_SIZE = 1000
 
 def get_database_connection():
-    return psycopg2.connect(
-        host=DB_HOST,
-        port=DB_PORT,
-        database=DB_NAME,
-        user=DB_USER,
-        password=DB_PASSWORD
-    )
+    return psycopg2.connect(DATABASE_URL)
+    
 
 def fetch_data_in_batches(batch_size):
     connection = get_database_connection()
