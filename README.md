@@ -22,5 +22,5 @@ pip install -r requirements.txt
 python app.py
 ```
 
-### This will launch the application and you can access it at  http://127.0.0.1:8080.
+### This will launch the application and you can access it at the given URL.
 
