@@ -17,11 +17,19 @@ from urllib.parse import urlparse
 load_dotenv()
 
 DATABASE_URL = os.getenv('DATABASE_URL')
+if DATABASE_URL is None:
+    raise Exception("DATABASE_URL environment variable not set")
 
 BATCH_SIZE = 1000
-
+print(DATABASE_URL)
 def get_database_connection():
-    return psycopg2.connect(DATABASE_URL)
+    try:
+        conn = psycopg2.connect(DATABASE_URL)
+        print("Database connection successful")
+        return conn
+    except Exception as e:
+        print(f"Error connecting to the database: {e}")
+        raise e
     
 app = Flask(__name__)
 CORS(app)
@@ -46,13 +54,13 @@ def process_user():
         new_profile_adoption_year = new_profile.get('adoption_year')
         new_profile_id = new_profile.get('id')
 
-
         # Check if the profile already exists
         cursor.execute("SELECT group_id FROM clusters WHERE profile_id = %s", (new_profile_id,))
         existing_profile = cursor.fetchone()
 
         cleaned_bio = preprocess_bios([new_profile_bio])[0]
-        new_bio_vector = global_vectorizer.encode([cleaned_bio])[0].tolist()  # Ensure it's a list for JSON conversion
+        # Convert the vector to a list of Python-native float types
+        new_bio_vector = [float(x) for x in global_vectorizer.encode([cleaned_bio])[0]]
 
         # Processing existing profile
         if existing_profile:
@@ -75,6 +83,7 @@ def process_user():
     except Exception as e:
         print(f"General error: {str(e)}")  # Debugging statement
         return jsonify({"error": str(e)}), 500
+
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=8080)
